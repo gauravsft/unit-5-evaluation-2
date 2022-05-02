@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whether Search</title>
+</head>
+<style>
+    #inputForm {
+        text-align: center;
+        margin-top: 20px;
+        border: 2px solid green;
+        width: 80%;
+        height: 10%;
+        margin: auto;
+        background-color: aquamarine;
+    }
+
+    #container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
+        justify-content: center;
+        width: 80%;
+        margin: auto;
+        margin-top: 2.5%;
+        background-color: black;
+
+    }
+
+    #flex {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    #cityName {
+        height: 40px;
+        border-radius: 5px;
+        ;
+    }
+
+    button {
+        height: 30px;
+        margin-top: 5px;
+        width: 80px;
+    }
+</style>
+
+<body>
+    <form id="inputForm">
+        <div id="flex">
+            <caption>
+                <h3>Whether Search</h3>
+            </caption>
+            <input type="text" id="cityName" placeholder="Search like:-ludhian" />
+        </div>
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="container">
+
+    </div>
+</body>
+<script>
+
+
+    document.querySelector('form').addEventListener('submit', function () {
+        event.preventDefault()
+        var city = document.getElementById('cityName').value;
+
+        fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=50734253bb372fa11ab8d8774a8bbb4d').then((response) => {
+            response.json().then((searchData) => {
+                displayData(searchData);
+                console.log(searchData);
+                function displayData(data) {
+
+                    var box = document.createElement("div");
+                    box.style.margin = "auto";
+                    box.style.color="white";
+
+                    var temp = document.createElement('p');
+                    name.innerText = "temp :" + data.main.temp;
+
+                    var pressure = document.createElement('p');
+                    pressure.innerText = "pressure :" + data.main.pressure;
+
+                    var humidity = document.createElement('p');
+                    humidity.innerText = "humidity :" + data.main.humidity;
+
+                    var windSpeed = document.createElement('p');
+                    windSpeed.innerText = "wind :" + data.wind.speed;
+
+                    var sunrise = document.createElement('p');
+                    sunrise.innerText = "sunrise :" + data.sys.sunrise;
+
+                    var sunset = document.createElement('p');
+                    sunset.innerText = "sunset :" + data.sys.sunset;
+
+                    var weatherDescription = document.createElement('p');
+                    weatherDescription.innerText = "weather description :" + data.weather[0].description;
+
+                    box.append(temp, pressure, humidity, windSpeed, sunrise, sunset, weatherDescription);
+
+                    document.querySelector("#container").append(box);
+
+
+                }
+
+            });
+
+        }).catch(function (err) {
+            console.log(err)
+        });
+    });
+
+</script>
+
+</html>
